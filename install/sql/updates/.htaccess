@@ -1,0 +1,2 @@
+# SQL-дампы недоступны напрямую по HTTP; применяет их install/update.php
+Require all denied
