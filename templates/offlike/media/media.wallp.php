@@ -40,7 +40,7 @@ $gal_count = $DB->selectCell("SELECT count(*) FROM `gallery` WHERE cat='wallpape
 <td align=right><?php echo $lang['Totalingallery'].":";?> <?php echo $gal_count; ?></td></tr>
 </table>
 <?php }else{ ?>
-<td align=right><?php echo $lang['Totalingallery'].":";?> <?php echo $gal_count; ?></td></tr>
+<tr><td align=right><?php echo $lang['Totalingallery'].":";?> <?php echo $gal_count; ?></td></tr>
 </table>
 <style type = "text/css">
   td.serverStatus1 { border-style: solid; border-width: 0px 1px 1px 0px; border-color: #D8BF95; }
@@ -106,12 +106,14 @@ src="show_picture.php?filename=<?php echo  $tablerows['img'];?>&gallery=wallp&wi
         unset($tablerows); 
     }
     unset($sql);
+?>
+</tr>
+</table>
+</center>
+<?php
 }
 else {
 	echo "No Wallpapers in gallery. Upload a wallpaper.";
 }
-mysql_close(); ?>
-</tr>
-</table>
-</center>
+?>
 <?php builddiv_end() ?>

@@ -5,7 +5,7 @@
     <td width="20%" style="border-bottom:1px solid #cccccc;"><?php echo $lang['who'];?></td>
     <td style="border-bottom:1px solid #cccccc;"><?php echo $lang['where'];?></td>
     <td style="border-bottom:1px solid #cccccc;"><?php echo $lang['when'];?></td>
-    <?php if($user['g_is_admin']==1 || $user['g_is_supadmin']==1){ ?><td style="border-bottom:1px solid #cccccc;">Ip</td><?php } ?>
+    <?php if((isset($user['g_is_admin']) && $user['g_is_admin']==1) || (isset($user['g_is_supadmin']) && $user['g_is_supadmin']==1)){ ?><td style="border-bottom:1px solid #cccccc;">Ip</td><?php } ?>
 </tr>
 <?php foreach($items as $item){ ?>
 <tr>

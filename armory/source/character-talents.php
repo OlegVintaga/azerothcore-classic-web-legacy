@@ -190,7 +190,7 @@ if ($hasCharTalent) {
     0
   );
   $learned = array();
-  foreach ((array)$rows as $r) { $learned[(int)$r['spell']] = true; }
+  if (is_array($rows)) foreach ($rows as $r) { $learned[(int)$r['spell']] = true; }
   if ($learned) {
     $trows = execute_query('armory',
       "SELECT `id`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5` FROM `dbc_talent`",

@@ -867,7 +867,7 @@ function GetCreatureInfo($data)
         //echo $stat["model".$i];
         if (!$stat["model" . $i])
         {
-            for ($j = 1; $j < 10; $j++) {
+            for ($j = 1; $j < 11; $j++) {
                 $model_info["item" . $j] = 0;
                 $model_info["icon" . $j] = GetIcon("item", 0);
             }
@@ -1181,22 +1181,6 @@ function build_tooltip_desc(array $sp): string {
         return (string)$val;
     }, $desc);
 
-    /* ${$*K;sN%}  →  (K * sNmin)%   e.g., ${$*5;s1%} -> 5 * $s1 = 15% */
-    $desc = preg_replace_callback(
-        '/\{\$\s*\*\s*([0-9]+)\s*;\s*\$s([1-3])\s*%\s*\}/i',
-        function($m) use ($s1min,$s2min,$s3min){
-            $k   = (int)$m[1];
-            $idx = (int)$m[2];
-            $map = array(1=>$s1min, 2=>$s2min, 3=>$s3min);
-            $base = isset($map[$idx]) ? abs($map[$idx]) : 0;
-            $val  = $k * $base;
-            return (string)$val . '%';
-        },
-        $desc
-    );
-
-
-
     // ---- Current spell values
     $currId = isset($sp['id']) ? (int)$sp['id'] : 0;
 
@@ -1208,6 +1192,20 @@ function build_tooltip_desc(array $sp): string {
     list($s1min,$s1max,$s1txt) = $formatSLocal((int)($sp['effect_basepoints_1'] ?? 0), $die1);
     list($s2min,$s2max,$s2txt) = $formatSLocal((int)($sp['effect_basepoints_2'] ?? 0), $die2);
     list($s3min,$s3max,$s3txt) = $formatSLocal((int)($sp['effect_basepoints_3'] ?? 0), $die3);
+
+    /* ${$*K;sN%} / {$*K;$sN%}  →  (K * sNmin)%   e.g., ${$*5;s1%} -> 5 * $s1 = 15% */
+    $desc = preg_replace_callback(
+        '/\$?\{\s*\$\s*\*\s*([0-9]+)\s*;\s*\$?s([1-3])\s*%\s*\}/i',
+        function($m) use ($s1min,$s2min,$s3min){
+            $k   = (int)$m[1];
+            $idx = (int)$m[2];
+            $map = array(1=>$s1min, 2=>$s2min, 3=>$s3min);
+            $base = isset($map[$idx]) ? abs($map[$idx]) : 0;
+            $val  = $k * $base;
+            return (string)$val . '%';
+        },
+        $desc
+    );
 
     // $/N; $sN   or   $/N; $<id>sN   (also supports ...oN)
     $desc = preg_replace_callback(
@@ -1503,20 +1501,29 @@ function build_tooltip_desc(array $sp): string {
 
     /* -------- ${min-max/divisor} style tokens -------- */
     $desc = preg_replace_callback('/\$\{([0-9]+)\s*-\s*([0-9]+)\/([0-9]+)\}/',
-        function($m) use ($cur,$max) {
+        function($m) {
             $min = (int)$m[1];
             $maxVal = (int)$m[2];
             $div = (int)$m[3];
             if ($div <= 0) $div = 1;
 
-            // linear scale based on current rank (1..max)
-            $steps = max(1, $max-1);
-            $progress = ($max > 1) ? ($cur-1)/$steps : 0;
-            $val = $min + ($maxVal - $min) * $progress;
-            $val = $val / $div;
+            // ранг спелла в build_tooltip_desc() не передаётся, поэтому берём нижнее значение
+            $val = $min / $div;
 
             // clean formatting
             $s = number_format($val, 1, '.', '');
+            $s = rtrim(rtrim($s, '0'), '.');
+            return ($s === '') ? '0' : $s;
+        }, $desc);
+
+
+    /* -------- ${A/B} со знаком: ${-2000/-1000} → 2 (отрицательные мс: сокращение времени) -------- */
+    $desc = preg_replace_callback('/\$\{\s*(-?[0-9]+)\s*\/\s*(-?[0-9]+)\s*\}/',
+        function($m) {
+            $num = (int)$m[1];
+            $den = (int)$m[2];
+            if ($den == 0) return $m[0];
+            $s = number_format($num / $den, 1, '.', '');
             $s = rtrim(rtrim($s, '0'), '.');
             return ($s === '') ? '0' : $s;
         }, $desc);

@@ -50,12 +50,12 @@ function build_menu_items($links_arr){
 
             $do_menu_excl = explode('!',$menu_item[2]);
             if(count($do_menu_excl) == 2) {
-                if($user[$do_menu_excl[1]]) {
+                if(!empty($user[$do_menu_excl[1]])) {
                     $ignore_item = 1;
                 }
             }
             else {
-                if(!$user[$do_menu_excl[0]]) {
+                if(empty($user[$do_menu_excl[0]])) {
                     $ignore_item = 1;
                 }
             }

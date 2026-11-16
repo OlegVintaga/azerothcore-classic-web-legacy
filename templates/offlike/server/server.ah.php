@@ -180,7 +180,7 @@ function AHsortlink($clicked) {
 			}
 		}
 	}
-	if(!$_GET['sort'] && $clicked != null) $link .= '&sort=' . $clicked;
+	if(empty($_GET['sort']) && $clicked != null) $link .= '&sort=' . $clicked;
 	return $link;
 }
 

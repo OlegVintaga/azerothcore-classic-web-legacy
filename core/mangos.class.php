@@ -4,7 +4,7 @@ class Mangos{
     public $characterInfoByID;
     public $charDataField;
 
-    public function Mangos(){
+    public function __construct(){
         $this->construct_zoneByID();
         $this->construct_characterinfo();
         $this->construct_charDataField();

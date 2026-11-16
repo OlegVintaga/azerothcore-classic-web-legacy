@@ -146,7 +146,7 @@ p.nm, p.wm {
 </style>
     <div style="padding-left:8px; padding-right: 14px">
       <form method="post" action="index.php?n=account&amp;sub=register" name="regform" id="regform" onsubmit="return check_all();">
-        <input type="hidden" name="r_key" value="<?php echo $_POST['r_key'];?>"/>
+        <input type="hidden" name="r_key" value="<?php echo isset($_POST['r_key']) ? $_POST['r_key'] : '';?>"/>
         <input type="hidden" name="step" value="3"/>
 
         <label for="r_login"><?php echo $lang['username'];?>:</label>
@@ -1512,7 +1512,7 @@ elseif(isset($_POST['step']) && $_POST['step'] == "userinfo" && $allow_reg === t
                                         <p>
                                             <table align="center">
                                                 <input type="hidden" name="step" value="accountinfo"/>
-                                                <input type="hidden" name="r_key" value="<?php echo $_POST['r_key'];?>"/>
+                                                <input type="hidden" name="r_key" value="<?php echo isset($_POST['r_key']) ? $_POST['r_key'] : '';?>"/>
                                                 <!-- I AGREE-->	<tr><td><input TYPE="image" SRC="<?php echo $currtmp; ?>/images/agree-button.gif" NAME="submit" alt="<?php echo $lang['agree']; ?>" class="button" ></td></tr>
                                                 <!-- I DISAGREE--><tr><td><a href = "index.php"><img src = "<?php echo $currtmp; ?>/images/disagree-button.gif" alt = "<?php echo $lang['disagree']; ?>" border = "0"></a></td></tr>
                                         </table>

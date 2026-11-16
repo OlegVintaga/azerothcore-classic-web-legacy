@@ -8,7 +8,7 @@ if(!defined("Armory"))
 /*<div class="parch-profile-banner" id="banner" style="margin-top: -2px!important;">
 <h1 style="padding-top: 12px!important;"><?php echo $lang["profile"] ?></h1>
 </div>*/
-if (!$data["title"]) {
+if (empty($data["title"])) {
     ?>
     <div class="parch-profile-banner" id="banner"
          style="position: absolute;margin-left: 450px!important;margin-top: -110px!important;">
@@ -26,7 +26,7 @@ echo "</br></br></br>";
 
 // Equipment
 for ($k = 1; $k < 4; $k++) {
-    if ($stat["equip".$k])
+    if (!empty($stat["equip".$k]))
     {
         $itemid = $stat["equip".$k];
         if ($k == 1)
@@ -136,7 +136,7 @@ for($i = 1; $i < 11; $i++) {
     &nbsp &nbsp <img style="height: 100px;position:absolute; padding-top: <?php echo $k * 2?>px; padding-left: 250px;" src="https://wow.zamimg.com/modelviewer/tbc/webthumbs/item/<?php echo ($displayId & 255)?>/<?php echo $displayId?>.webp"></img>
     <?php
   ?>
-<span><img class="ci" height="50" onMouseOut="hideTip();" onmouseover="showTip('<?php echo ($displayId != 0) ? $displayId : 'No Item' ?>')" src="<?php echo $item_icon ?>"> <a href="" onMouseOut="hideTip();" onmouseover="showTip('<?php echo $lang["loading"] ?>'); showTooltip(<?php echo $feed["data"],",",$realms[REALM_NAME][2] ?>)"><?php echo $item_cache[$feed["data"]]["item_name"]; ?></a></q></span>
+<span><img class="ci" height="50" onMouseOut="hideTip();" onmouseover="showTip('<?php echo ($displayId != 0) ? $displayId : 'No Item' ?>')" src="<?php echo $item_icon ?>"></span>
 <?php
     if ($displayId != 0)
         echo $displayId;
@@ -154,7 +154,7 @@ for($i = 1; $i < 11; $i++) {
             $icon = GetIcon("item", $same_display_id);
             echo "&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp";
             ?>
-            <span><img style="top:10px;" class="ci" height="50" onMouseOut="hideTip();" onmouseover="showTip('<?php echo ($same_display_id != 0) ? $same_display_id : 'No Item' ?>')" src="<?php echo $icon ?>"> <a href="" onMouseOut="hideTip();" onmouseover="showTip('<?php echo $lang["loading"] ?>'); showTooltip(<?php echo $feed["data"],",",$realms[REALM_NAME][2] ?>)"><?php echo $item_cache[$feed["data"]]["item_name"]; ?></a></q></span>
+            <span><img style="top:10px;" class="ci" height="50" onMouseOut="hideTip();" onmouseover="showTip('<?php echo ($same_display_id != 0) ? $same_display_id : 'No Item' ?>')" src="<?php echo $icon ?>"></span>
             <?php
             echo $same_display_id."</br></br></br>";
         }
@@ -215,7 +215,7 @@ for($i = 1; $i < 11; $i++) {
                 foreach ($doquery_pls_gm as $result_pls_gm)
                     $item_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                 foreach ($item_cache as $item)
-                    $item["item_relevance"] = $itemScores[$item["item_id"]];
+                    $item["item_relevance"] = isset($itemScores[$item["item_id"]]) ? $itemScores[$item["item_id"]] : 0;
                 //while($result_pls_gm = mysql_fetch_assoc($doquery_pls_gm))
                 //	$item_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                 //switchConnection("armory", REALM_NAME);

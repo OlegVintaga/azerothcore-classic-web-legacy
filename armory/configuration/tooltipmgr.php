@@ -142,6 +142,7 @@ function spell_parsedata($spellinfo, $buff = 0)
 function getStatType($statType, $statVal)
 {
 	global $stattype_description, $lang;
+	$isGreenStat = 0;
 	if($statType >= 0 && $statType <= 7 && $statType != 2)
 	{
         // vanilla - hp & mp bonuese exist on 2 items only and are white
@@ -548,7 +549,7 @@ function outputTooltip($itemid, $itemguid = 0, $itemlist = array())
                     }
                     $socketexist = 1;
                 }
-                else if(!$prismatic_already && $itemguid && CLIENT && $enchantmentsData[$defines["PRISMATIC_SOCKET"][CLIENT]])
+                else if(!$prismatic_already && $itemguid && CLIENT && ($enchantmentsData[$defines["PRISMATIC_SOCKET"][CLIENT]] ?? 0))
                 {
                     //prismatic socket
                     $sockcol = "Prismatic";

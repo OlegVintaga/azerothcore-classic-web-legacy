@@ -353,11 +353,11 @@ if ( in_array( $ext, $allowed_ext ) )
 		'/' . $ext . '/' . $ext . '.' . $sub . '.php' ;
 
 	require ( 'components/' . $ext . '/' . 'main.php' ) ;
-	$group_privilege = $com_content[$ext][$sub][0] ;
+	$group_privilege = isset( $com_content[$ext][$sub][0] ) ? $com_content[$ext][$sub][0] : '' ;
 	$expectation = ( substr( $group_privilege, 0, 1 ) == '!' ) ? 0 : 1 ;
 	if ( $expectation == 0 )
 		$group_privilege = substr( $group_privilege, 1 ) ;
-	if ( $group_privilege && $user[$group_privilege] != $expectation )
+	if ( $group_privilege && ( isset( $user[$group_privilege] ) ? $user[$group_privilege] : 0 ) != $expectation )
 		exit( '<h2>Forbidden</h2><meta http-equiv=refresh content="3;url=\'./\'">' ) ;
 	// ==================== //
 	if ( isset( $_REQUEST['n'] ) && isset( $lang[$com_content[$ext]['index'][1]] ) )
@@ -370,7 +370,7 @@ if ( in_array( $ext, $allowed_ext ) )
 		{
 			if ( $sub_conf[0] )
 			{
-				if ( $user[$sub_conf[0]] == 1 )
+				if ( ( isset( $user[$sub_conf[0]] ) ? $user[$sub_conf[0]] : 0 ) == 1 )
 				{
 					$GLOBALS['context_menu'][] = array( 'title' => ( isset( $lang[$sub_conf[1]] ) ?
 						$lang[$sub_conf[1]] : '??title??' ), 'link' => ( isset( $sub_conf[2] ) ? $sub_conf[2] :
@@ -385,11 +385,11 @@ if ( in_array( $ext, $allowed_ext ) )
 	}
 	if ( $sub )
 	{
-		if ( $com_content[$ext][$sub] )
+		if ( !empty( $com_content[$ext][$sub] ) )
 		{
 			if ( $com_content[$ext][$sub][0] )
 			{
-				if ( $user[$com_content[$ext][$sub][0]] == 1 )
+				if ( ( isset( $user[$com_content[$ext][$sub][0]] ) ? $user[$com_content[$ext][$sub][0]] : 0 ) == 1 )
 				{
 					$req_tpl = true ;
 					@include ( $script_file ) ;

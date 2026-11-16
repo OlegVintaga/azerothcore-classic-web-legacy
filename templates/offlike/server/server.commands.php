@@ -3,7 +3,6 @@
 <?php $MANG = new Mangos; ?>
 <style media="screen, projection" type="text/css">
 	@import "css/master.css";
-	@import "css/<?php echo LANGUAGE ?>/language.css";
 </style>
 	
 <?php write_metalborder_header(); ?>

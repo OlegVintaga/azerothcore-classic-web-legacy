@@ -32,8 +32,8 @@
                                             <small>
                                               <?php echo $lang['pagegenerated'];?> <?php echo round($exec_time,4);?> sec.
                                               Query's: (RDB: <?php echo $DB->_statistics['count']; ?>,
-                                              WSDB: <?php echo $WSDB->_statistics['count']?>,
-                                              CHDB: <?php echo $CHDB->_statistics['count']?>)<br/>
+                                              WSDB: <?php echo (isset($WSDB) && is_object($WSDB)) ? $WSDB->_statistics['count'] : 0 ?>,
+                                              CHDB: <?php echo (isset($CHDB) && is_object($CHDB)) ? $CHDB->_statistics['count'] : 0 ?>)<br/>
                                               <b>&copy; <?php echo (string)$MW->getConfig->generic->copyright; ?></b>
                                               <br/>
                                               <a class="small" href="index.php?n=html&amp;text=license">GNU GPL Licence</a> |

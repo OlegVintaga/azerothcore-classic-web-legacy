@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title><?php echo(string)$MW->getConfig->generic->site_title;?><?php echo $title_str;?></title>
+<title><?php echo(string)$MW->getConfig->generic->site_title;?><?php echo isset($title_str) ? $title_str : ''; ?></title>
 <base href="<?php echo$MW->getConfig->temp->base_href;?>" /> 
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo(string)$MW->getConfig->generic->site_encoding;?>" />
 <style media="screen" title="currentStyle" type="text/css">
@@ -20,7 +20,7 @@ function selectattach(id){
 <script type="text/javascript" src="js/core.js"></script>
 <body id="docbody" class="regular">
 
-<?php if($user['g_use_attach']==1){ ?>
+<?php if(isset($user['g_use_attach']) && $user['g_use_attach']==1){ ?>
 <style media="screen" title="currentStyle" type="text/css">
     img {
         border: none;

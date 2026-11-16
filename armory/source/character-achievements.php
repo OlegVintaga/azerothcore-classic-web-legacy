@@ -27,8 +27,9 @@ foreach ($getcategory as $category)
     else
         $getsubcategory = execute_query("armory", "SELECT `id`, `name` FROM `dbc_achievement_category` WHERE `ref_achievement_category` = ".$category["id"]);
 
-    foreach ($getsubcategory as $subcategory)
-        $temp_out[$subcategory["id"]] = array(subcategory_frame($subcategory["name"]), 0);
+    if (is_array($getsubcategory))
+        foreach ($getsubcategory as $subcategory)
+            $temp_out[$subcategory["id"]] = array(subcategory_frame($subcategory["name"]), 0);
 }
 if (CLIENT < 2)
     $getcharachi = execute_query("char","SELECT `achievement`, `date` FROM `character_achievement` WHERE `guid` = ".$stat["guid"]);

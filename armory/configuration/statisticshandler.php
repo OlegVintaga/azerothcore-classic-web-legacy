@@ -238,7 +238,7 @@ function assign_stats_new($data)
     //$stat["guildrank"] = $statistic_data[$defines["GUILD_RANK"][CLIENT]];
     $stat["kills"] = $data['totalKills'];
     $stat["honor"] = $data['totalHonor'];
-    $stat["rank"] = $data['rank'] ? ($data['rank'] - 4) : 0;
+    $stat["rank"] = ($data['rank'] ?? 0) ? ($data['rank'] - 4) : 0;
     if ($stat["rank"])
     {
         $loctemp = LANGUAGE;
@@ -252,7 +252,7 @@ function assign_stats_new($data)
 
     }
     //$stat["arenapoints"] = $statistic_data[$defines["ARENAPOINTS"][CLIENT]];
-    $stat["arenapoints"] = $data['aremaPoints'];
+    $stat["arenapoints"] = $data['aremaPoints'] ?? 0;
     $stat["gender"] = $data["gender"];
     $stat["race"] = $data["race"];
     $stat["class"] = $data["class"];

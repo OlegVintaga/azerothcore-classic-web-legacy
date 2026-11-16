@@ -208,7 +208,12 @@ class AUTH {
                     $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
                 }
                 else {
-                    $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
+                    // Если пользователь указал секретные вопросы — сохраняем их сразу при регистрации
+                    if(!empty($account_extend['secretq1']) && !empty($account_extend['secreta1'])){
+                        $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?, secretq1=?, secreta1=?, secretq2=?, secreta2=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key,$account_extend['secretq1'],$account_extend['secreta1'],$account_extend['secretq2'],$account_extend['secreta2']);
+                    }else{
+                        $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
+                    }
                     //$account_extend['account_id'] = $acc_id;
                     //$account_extend['registration_ip'] = $_SERVER['REMOTE_ADDR'];
                     //$account_extend['activation_code'] = $tmp_act_key;
@@ -240,7 +245,12 @@ class AUTH {
                     //$account_extend['registration_ip'] = $_SERVER['REMOTE_ADDR'];
                     //$account_extend['theme'] = $params['expansion'];
                     //$this->DB->query("INSERT INTO website_accounts SET ?a", $account_extend);
-                    $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
+                    // Если пользователь указал секретные вопросы — сохраняем их сразу при регистрации
+                    if(!empty($account_extend['secretq1']) && !empty($account_extend['secreta1'])){
+                        $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?, secretq1=?, secreta1=?, secretq2=?, secreta2=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key,$account_extend['secretq1'],$account_extend['secreta1'],$account_extend['secretq2'],$account_extend['secreta2']);
+                    }else{
+                        $this->DB->query("INSERT INTO website_accounts SET account_id=?d, registration_ip=?, activation_code=?",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
+                    }
 //                    $this->DB->query("INSERT INTO account_extend SET account_id=?d, registration_ip=?, activation_code=?, secretq1='".$account_extend['secretq1']."',secreta1='".$account_extend['secreta1']."',secretq2='".$account_extend['secretq2']."',secreta2='".$account_extend['secreta2']."'",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key);
                     //$this->DB->query("INSERT INTO account_extend SET account_id=?d, registration_ip=?, activation_code=?, secretq1=?s, secreta1=?s, secretq2=?s, secreta2=?s",$acc_id,$_SERVER['REMOTE_ADDR'],$tmp_act_key,$account_extend['secretq1'], $account_extend['secreta1'], $account_extend['secretq2'], $account_extend['secreta2']);
                 }
@@ -341,7 +351,7 @@ class AUTH {
     {
         $GLOBALS['guests_online']=0;
         $rows = $this->DB->select("SELECT * FROM `website_online`");
-        if ($rows->num)
+        if (!empty($rows))
         foreach($rows as $result_row)
         {
             if(time()-$result_row['logged'] <= 60*10)

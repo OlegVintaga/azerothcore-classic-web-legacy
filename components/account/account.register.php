@@ -616,7 +616,7 @@ if ($_POST['update']=="valcode" and $_POST['save']=="true") {
                   // Main add.
                   if ($notreturn === FALSE){
                         if($auth->register(array('username'=>$_POST['r_login'],'sha_pass_hash'=>sha_password($_POST['r_login'],$_POST['r_pass']),'sha_pass_hash2'=>sha_password($_POST['r_login'],$_POST['r_cpass']),'email'=>$_POST['r_email'],'expansion' =>$_POST['r_account_type'],'password' =>
-                              $_POST['r_pass']), array('secretq1'=>strip_if_magic_quotes($_POST['secretq1']),'secreta1'=>strip_if_magic_quotes($_POST['secreta1']),'secretq2'=>strip_if_magic_quotes($_POST['secretq2']), 'secreta2'=>strip_if_magic_quotes($_POST['secreta2'])))===true){
+                              $_POST['r_pass']), array('secretq1'=>strip_if_magic_quotes($_POST['secretq1'] ?? ''),'secreta1'=>strip_if_magic_quotes($_POST['secreta1'] ?? ''),'secretq2'=>strip_if_magic_quotes($_POST['secretq2'] ?? ''), 'secreta2'=>strip_if_magic_quotes($_POST['secreta2'] ?? '')))===true){
                               if((int)$MW->getConfig->generic->req_reg_act == 0)
                               {
                                     $auth->login(array('username'=>$_POST['r_login'],'sha_pass_hash'=>sha_password($_POST['r_login'],$_POST['r_pass'])));

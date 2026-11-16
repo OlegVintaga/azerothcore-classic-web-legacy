@@ -1,7 +1,8 @@
 <?php
 if(INCLUDED!==true)exit;
 // ==================== //
-if($_GET['text']=='license'){
+$content = '';
+if(isset($_GET['text']) && $_GET['text']=='license'){
     $pathway_info[] = array('title'=>'License','link'=>'');
     $content = lang_resource('gnu_gpl.html');
 }

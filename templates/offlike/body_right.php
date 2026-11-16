@@ -29,7 +29,7 @@
 
 <!-- VoteLinks  -->
 
-<?php if(count($MW->getConfig->votelinks->vote) > 0): ?>
+<?php if (isset($MW->getConfig->votelinks->vote) && count($MW->getConfig->votelinks->vote) > 0): ?>
 
 <div id="box3">
 <h3><?php echo $lang['vote_system'];?></h3>

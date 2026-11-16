@@ -26,7 +26,7 @@
 </style>
 <table align="center" width="100%"><tr><td align="center">
 <h3><a href="index.php?n=forum&sub=viewforum&fid=<?php echo (int)$MW->getConfig->generic_values->forum->bugs_forum_id;?>"> --- Bugtracker forum --- </a></h3>
-<?php foreach($alltopics as $topic){ ?>
+<?php foreach((is_array($alltopics) ? $alltopics : array()) as $topic){ ?>
 <div style="margin-right: 0pt;" class="postContainerPlain" align="left">
     <h3 class="title"><?php echo $topic['topic_name'];?><br/><small style="color: #000;"><?php echo $topic['poster'];?>, <?php echo date('d/m/Y, H:i',$topic['topic_posted']);?></small></h3>
     <div class="postBody"><?php echo $topic['message'];?></div>

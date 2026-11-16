@@ -11,6 +11,7 @@ $limitstart = ($pid - 1) * $limit;
   $MANG = new Mangos;
   $res_info = array();
   $query = array();
+  $numofpgs = 1;
   $realm_info = get_realm_byid($user['cur_selected_realmd']);
   $cc = 0;
     if(check_port_status($realm_info['address'], $realm_info['port'])===true)

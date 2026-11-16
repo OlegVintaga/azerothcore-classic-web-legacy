@@ -276,6 +276,13 @@ $lang = array(
 "unknown" => "Unknown",
 "unknown_trigger" => "UNKNOWN TRIGGER",
 "unk_state_type" => "Unknown Stat Type",
+"textDropRate" => "Шанс выпадения:",
+"textDR0" => "Нет",
+"textDR1" => "Крайне низкий (1% - 2%)",
+"textDR2" => "Очень низкий (3% - 14%)",
+"textDR3" => "Низкий (15% - 24%)",
+"textDR4" => "Средний (25% - 50%)",
+"textDR5" => "Высокий (51% - 99%)",
 "use" => "При использовании",
 "value" => "Value",
 // Resistances

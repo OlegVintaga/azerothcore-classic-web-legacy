@@ -243,7 +243,7 @@ if(CLIENT > 1)
 <h1>
 <span style="font-size: 16px;"><?php if ($stat["rank"]){?><img style="height: 22px;margin-top:-5px;margin-right: 4px;" src="images/icons/pvpranks/rank<?php echo $stat["rank"]?>.gif"><span style="margin:2px;"><?php echo $stat["rank_name"]; }?></span></span>
 </h1>
-<h2><?php if($stat["title_name"] && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if($stat["title_name"] && $stat["title_place"]){echo " "; echo $stat["title_name"];}?><span style="font-size: 16px; font-weight: normal"><!--, Guardian of Cenarius--></span></h2>
+<h2><?php if(!empty($stat["title_name"]) && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if(!empty($stat["title_name"]) && $stat["title_place"]){echo " "; echo $stat["title_name"];}?><span style="font-size: 16px; font-weight: normal"><!--, Guardian of Cenarius--></span></h2>
 <?php
 	if($stat["guild"])
 	{
@@ -267,7 +267,7 @@ if(CLIENT > 1)
 <h1>
     <span style="font-size: 16px; color: #fff7d2; margin-left:22px;"><?php if ($stat["rank"]){?><span style="margin:5px;margin-bottom:15px;"><?php echo $stat["rank_name"]; }?></span></span>
 </h1>
-<h2><?php if($stat["title_name"] && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if($stat["title_name"] && $stat["title_place"]){echo " "; echo $stat["title_name"];} ?><span style="font-size: 16px; font-weight: normal;  color: #fff7d2"><!--, Guardian of Cenarius--></span>
+<h2><?php if(!empty($stat["title_name"]) && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if(!empty($stat["title_name"]) && $stat["title_place"]){echo " "; echo $stat["title_name"];} ?><span style="font-size: 16px; font-weight: normal;  color: #fff7d2"><!--, Guardian of Cenarius--></span>
 </h2>
 <h3>
 <?php

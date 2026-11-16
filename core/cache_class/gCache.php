@@ -47,8 +47,7 @@ class gCache extends SafeIO {
     **  Class constructor
     */
     function __construct() {
-        global $HTTP_SERVER_VARS;
-        $this->userSupportCompression = strpos($HTTP_SERVER_VARS['HTTP_ACCEPT_ENCODING'], 'gzip') !== false;
+        $this->userSupportCompression = strpos($_SERVER['HTTP_ACCEPT_ENCODING'] ?? '', 'gzip') !== false;
     }
     
     

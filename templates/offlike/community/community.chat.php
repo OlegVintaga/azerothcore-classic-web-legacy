@@ -18,4 +18,4 @@ if ($showchat == true){
 <?php
 }
 ?>
-<?php builddiv_end ?>
+<?php builddiv_end() ?>

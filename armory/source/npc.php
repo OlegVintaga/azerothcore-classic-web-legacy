@@ -34,6 +34,11 @@ if($error || $data == false)
 else
 {
     $stat = GetCreatureInfo($data);
+    // У NPC нет игровых атрибутов персонажа — пустые значения для общего шаблона профиля
+    $stat += array('guild'=>0, 'race'=>0, 'class'=>0, 'gender'=>0, 'rank'=>0, 'rank_name'=>'', 'title_name'=>'', 'title_place'=>0);
+    $race = '';
+    $class = '';
+    $achievementPoints = 0;
 
 	$PagesCharArray = array(
 	"sheet" => "npc-sheet.php",
@@ -51,13 +56,13 @@ else
 ?>
 <script type="text/javascript">
 
-var theClassId = <?php echo $data["CreatureType"] ?>;
-var theRaceId = <?php echo $data["Family"] ?>;
+var theClassId = <?php echo isset($data["type"]) ? (int)$data["type"] : 0 ?>;
+var theRaceId = <?php echo isset($data["family"]) ? (int)$data["family"] : 0 ?>;
 var theClassName = "<?php echo "SomeMobs" ?>";
-var theLevel = <?php echo $data["MinLevel"] ?>;
+var theLevel = <?php echo isset($data["minlevel"]) ? (int)$data["minlevel"] : 0 ?>;
 
 var theRealmName = "<?php echo REALM_NAME ?>";
-var theCharName = "<?php echo $data["Name"] ?>";
+var theCharName = "<?php echo isset($data["name"]) ? $data["name"] : '' ?>";
 
 </script>
 <div class="sub-head">
@@ -203,7 +208,7 @@ if(CLIENT > 1)
 <h1>
 <span style="font-size: 16px;"><?php if ($stat["rank"]){?><img style="height: 22px;margin-top:-5px;margin-right: 4px;" src="images/icons/pvpranks/rank<?php echo $stat["rank"]?>.gif"><span style="margin:2px;"><?php echo $stat["rank_name"]; }?></span></span>
 </h1>
-<h2><?php if($stat["title_name"] && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if($stat["title_name"] && $stat["title_place"]){echo " "; echo $stat["title_name"];}?><span style="font-size: 16px; font-weight: normal"><!--, Guardian of Cenarius--></span></h2>
+<h2><?php if(!empty($stat["title_name"]) && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if(!empty($stat["title_name"]) && $stat["title_place"]){echo " "; echo $stat["title_name"];}?><span style="font-size: 16px; font-weight: normal"><!--, Guardian of Cenarius--></span></h2>
 <?php
 	if($stat["subname"])
 	{
@@ -227,7 +232,7 @@ if(CLIENT > 1)
 <h1>
     <span style="font-size: 16px; color: #fff7d2; margin-left:22px;"><?php if ($stat["rank"]){?><span style="margin:5px;margin-bottom:15px;"><?php echo $stat["rank_name"]; }?></span></span>
 </h1>
-<h2><?php if($stat["title_name"] && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if($stat["title_name"] && $stat["title_place"]){echo " "; echo $stat["title_name"];} ?><span style="font-size: 16px; font-weight: normal;  color: #fff7d2"><!--, Guardian of Cenarius--></span>
+<h2><?php if(!empty($stat["title_name"]) && !$stat["title_place"]){echo $stat["title_name"]; echo " ";} echo $stat["name"]; if(!empty($stat["title_name"]) && $stat["title_place"]){echo " "; echo $stat["title_name"];} ?><span style="font-size: 16px; font-weight: normal;  color: #fff7d2"><!--, Guardian of Cenarius--></span>
 </h2>
 <h3>
 <?php

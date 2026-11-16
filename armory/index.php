@@ -371,9 +371,10 @@ document.getElementById('displayRealm').innerHTML = searchRealm;
 </div>
 <div class="backplate">
     <?php
-    if (!isset($_GET["realm"]) || $realms[$_GET["realm"]][0] == 1)
+    $realm_info = isset($_GET["realm"]) ? ($realms[$_GET["realm"]] ?? null) : null;
+    if (!isset($_GET["realm"]) || (is_array($realm_info) && $realm_info[0] == 1))
         echo "<div class=\"bp2\">";
-    else if ($realms[$_GET["realm"]][0] == 2)
+    else if (is_array($realm_info) && $realm_info[0] == 2)
         echo "<div class=\"bp2-tbc\">";
     else
         echo "<div class=\"bp2-wotlk\">";
