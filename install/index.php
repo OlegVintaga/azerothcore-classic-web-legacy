@@ -304,6 +304,36 @@ if ($isPost) {
             }
         }
 
+        // --- каталог аватарок ---
+        // В git пустые каталоги не хранятся, поэтому после чистой установки папка
+        // из config.xml (generic->avatar_path) создаётся здесь — иначе загрузка
+        // аватарок (move_uploaded_file) молча падает, а в профиле/ЛС остаётся пусто.
+        if (!$errors) {
+            $avPath = 'images/avatars/';
+            $avXml = @simplexml_load_file(dirname(__DIR__) . '/config/config.xml');
+            if ($avXml) {
+                $avTmp = trim((string)$avXml->generic->avatar_path);
+                if ($avTmp !== '') {
+                    $avPath = $avTmp;
+                }
+            }
+            $avRel = trim(str_replace('\\', '/', $avPath), '/');
+            $avDir = dirname(__DIR__) . '/' . $avRel;
+            if (!is_dir($avDir)) {
+                @mkdir($avDir, 0777, true);
+            }
+            if (!is_dir($avDir)) {
+                $errors[] = "Не удалось создать каталог для аватарок: $avRel";
+            } elseif (!is_writable($avDir)) {
+                $errors[] = "Каталог аватарок недоступен для записи: $avRel";
+            } else {
+                if (!file_exists($avDir . '/index.html')) {
+                    @file_put_contents($avDir . '/index.html', "<html><body></body></html>\n");
+                }
+                $done[] = "Каталог аватарок готов: $avRel/";
+            }
+        }
+
         // --- config.xml: данные сайта ---
         if (!$errors) {
             $xmlPath = dirname(__DIR__) . '/config/config.xml';

@@ -22,4 +22,8 @@ install/DISABLE_INSTALLER.php
 
 # Cache
 /core/cache/*
+
+# Загруженные аватарки пользователей — личные файлы, в репозиторий не попадают
+/images/avatars/*
+!/images/avatars/index.html
 /armory/images/models

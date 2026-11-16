@@ -18,6 +18,7 @@ Put the whole project into the web root of your virtual host, e.g. `/var/www/wow
 Make sure these paths are writable by the web server user:
 - `config/` (the installer writes `config/config-protected.php`)
 - `install/` (the installer writes `install/DISABLE_INSTALLER.php`)
+- `images/avatars/` (the installer creates it; uploaded avatars are stored here)
 
 ## 3. Run the installer
 Open `http://your-site/install/` in a browser and fill in the single form:

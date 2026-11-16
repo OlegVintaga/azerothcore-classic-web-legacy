@@ -18,7 +18,7 @@ $key = $_REQUEST['key'];
 if($key){
   if($user['id'] = $auth->isvalidactkey($key)){
     $DB->query("UPDATE ".AUTH_DB.".account SET locked=0 WHERE id=? LIMIT 1",$user['id']);
-        $DB->query("UPDATE account_extend SET activation_code=NULL WHERE account_id=? LIMIT 1",$user['id']);
+        $DB->query("UPDATE website_accounts SET activation_code=NULL WHERE account_id=? LIMIT 1",$user['id']);
         if($realmd['req_reg_invite'] > 0 && $realmd['req_reg_invite'] < 10){
             $keys_arr = $auth->generate_keys($realmd['req_reg_invite']);
             $email_text  = '';

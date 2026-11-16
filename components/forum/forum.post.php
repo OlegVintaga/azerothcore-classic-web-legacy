@@ -31,7 +31,7 @@ if($_GET['action']=='donewtopic' && $this_forum['forum_id']>0){
             $new_post_id = $DB->query("INSERT INTO f_posts (poster,poster_id,poster_character_id,poster_ip,message,posted,topic_id) VALUES (?,?d,?d,?,?,?d,?d)",
                 $user['character_name'],$user['id'],$user['character_id'],$user['ip'],$message,$post_time,$new_topic_id);
             
-            $DB->query("UPDATE account_extend SET forum_posts=forum_posts+1 WHERE account_id=?d",$user['id']);
+            $DB->query("UPDATE website_accounts SET forum_posts=forum_posts+1 WHERE account_id=?d",$user['id']);
                     
             $DB->query("UPDATE f_topics SET last_post=?d, last_post_id=?d, last_poster=? WHERE topic_id=?d",
                 $post_time,$new_post_id,$user['character_name'],$new_topic_id);
@@ -103,7 +103,7 @@ if($_GET['action']=='donewtopic' && $this_forum['forum_id']>0){
         $new_post_id = $DB->query("INSERT INTO f_posts (poster,poster_id,poster_character_id,poster_ip,message,posted,topic_id) VALUES (?,?d,?d,?,?,?d,?d)",
             $user['character_name'],$user['id'],$user['character_id'],$user['ip'],$message,$post_time,$this_topic['topic_id']);
         
-        $DB->query("UPDATE account_extend SET forum_posts=forum_posts+1 WHERE account_id=?d",$user['id']);
+        $DB->query("UPDATE website_accounts SET forum_posts=forum_posts+1 WHERE account_id=?d",$user['id']);
                 
         $DB->query("UPDATE f_topics SET last_post=?d, last_post_id=?d, last_poster=?, num_replies=num_replies+1 WHERE topic_id=?d",
             $post_time,$new_post_id,$user['character_name'],$this_topic['topic_id']);
@@ -116,7 +116,7 @@ if($_GET['action']=='donewtopic' && $this_forum['forum_id']>0){
     if(($this_post['poster_id']==$user['id'] && $user['g_delete_own_posts']==1) || $user['g_forum_moderate']==1){
         $DB->query("DELETE FROM f_posts WHERE post_id=?d LIMIT 1",$this_post['post_id']);
         if($this_post['poster_id']==$user['id']){
-            $DB->query("UPDATE account_extend SET forum_posts=forum_posts-1 WHERE account_id=?d",$user['id']);
+            $DB->query("UPDATE website_accounts SET forum_posts=forum_posts-1 WHERE account_id=?d",$user['id']);
         }
         $new_last_post = get_last_topic_post($this_topic['topic_id']);
         $DB->query("UPDATE f_topics SET last_post=?d, last_post_id=?d, last_poster=?, num_replies=num_replies-1 WHERE topic_id=?d",

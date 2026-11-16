@@ -449,12 +449,14 @@ function GetItemSource($item_id, $pvpreward = 0)
             return ($isSameZone ? $lang["drop"] : "World Drop ") . (($isSameZone && $zoneId) ? "<span class='tooltipContentSpecial'>Area: <span class='myWhite'>" . $zoneName . "</span></span>" : "") . ($dropChance ? " <span class='tooltipContentSpecial'>".$lang["textDropRate"]." <span class='myWhite'>".PrintItemDropChance($dropChance)."</span></span>": "");
         }
 
-        foreach ($refLootInstanceList as $refLootInstance)
+        foreach ($refLootInstanceList as &$refLootInstance)
         {
-            usort($refLootInstance, function($a, $b) {
+            if (!empty($refLootInstance["loot_list"]) && is_array($refLootInstance["loot_list"]))
+            usort($refLootInstance["loot_list"], function($a, $b) {
                 return $a['chance'] - $b['chance'];
             });
         }
+        unset($refLootInstance);
 
         // single boss
         if (count($refLootInstanceList) == 1)

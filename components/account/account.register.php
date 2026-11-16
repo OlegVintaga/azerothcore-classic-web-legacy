@@ -306,7 +306,7 @@ else
             }
       }
       if((int)$MW->getConfig->generic->max_accounts_per_ip>0){
-            $count_ip = $DB->selectCell("SELECT count(*) FROM account_extend WHERE registration_ip=?",$_SERVER['REMOTE_ADDR']);
+            $count_ip = $DB->selectCell("SELECT count(*) FROM website_accounts WHERE registration_ip=?",$_SERVER['REMOTE_ADDR']);
             if($count_ip>=(int)$MW->getConfig->generic->max_accounts_per_ip){
                   output_message('alert',$lang['reg_acclimit']);
                   $allow_reg = false;

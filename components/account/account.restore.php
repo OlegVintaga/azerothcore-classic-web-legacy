@@ -39,9 +39,9 @@ if($_POST['retr_login'] && $_POST['retr_email'] && $_POST['secretq1'] && $_POST[
     output_message('alert','<b>'.$lang['fail_restore_pass'].'</b><meta http-equiv=refresh content="3;url=index.php?n=account&sub=restore">');
   }
   elseif ($return == TRUE) {
-    $we = $DB->selectRow("SELECT account_id FROM `account_extend` WHERE account_id=? AND secretq1=? AND secretq2=? AND secreta1=? AND secreta2=?", $username,strip_if_magic_quotes($_POST['secretq1']),strip_if_magic_quotes($_POST['secretq2']),strip_if_magic_quotes($_POST['secreta1']),strip_if_magic_quotes($_POST['secreta2']));
+    $we = $DB->selectRow("SELECT account_id FROM `website_accounts` WHERE account_id=? AND secretq1=? AND secretq2=? AND secreta1=? AND secreta2=?", $username,strip_if_magic_quotes($_POST['secretq1']),strip_if_magic_quotes($_POST['secretq2']),strip_if_magic_quotes($_POST['secreta1']),strip_if_magic_quotes($_POST['secreta2']));
     if ($we == false){
-      $we = $DB->selectRow("SELECT account_id FROM `account_extend` WHERE account_id=? AND secretq1=? AND secretq2=? AND secreta1=? AND secreta2=?", $username,strip_if_magic_quotes($_POST['secretq2']),strip_if_magic_quotes($_POST['secretq1']),strip_if_magic_quotes($_POST['secreta2']),strip_if_magic_quotes($_POST['secreta1']));
+      $we = $DB->selectRow("SELECT account_id FROM `website_accounts` WHERE account_id=? AND secretq1=? AND secretq2=? AND secreta1=? AND secreta2=?", $username,strip_if_magic_quotes($_POST['secretq2']),strip_if_magic_quotes($_POST['secretq1']),strip_if_magic_quotes($_POST['secreta2']),strip_if_magic_quotes($_POST['secreta1']));
     }
     if($we == true){
       $pas = random_string(7);

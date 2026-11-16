@@ -103,7 +103,9 @@
         <tbody>
             <tr>
                 <td width="120" rowspan="2" valign="top" align="center">
+                    <?php if ( !empty( $senderinfo['avatar'] ) ) { ?>
                     <img src="<?php echo (string)$MW->getConfig->generic->avatar_path;?><?php echo $senderinfo['avatar'];?>" border="0"/><br/>
+                    <?php } ?>
                     <b><?php echo $senderinfo['g_title'];?></b><br/>
                     <u><?php echo date('d F Y, H:i',$item['posted']);?></u><br/>
                 </td>

@@ -15,7 +15,7 @@ if($_GET['id'] > 0){
     if(!$_GET['action']){
         $profile = $auth->getprofile($_GET['id']);
         $allgroups = $DB->selectCol("SELECT g_id AS ARRAY_KEY, g_title FROM account_groups");
-        $donator = $DB->selectCell("SELECT donator FROM account_extend WHERE account_id=?d", $_GET['id']);
+        $donator = $DB->selectCell("SELECT donator FROM website_accounts WHERE account_id=?d", $_GET['id']);
         $id = $_GET['id'];
         $act = $DB->selectCell("SELECT active FROM ".AUTH_DB.".account_banned WHERE id=?d AND active=1", $id);
         $active = $act;
@@ -58,7 +58,7 @@ if($_GET['id'] > 0){
         $q = $DB->selectCell("SELECT last_ip FROM ".AUTH_DB.".account WHERE id=?d", $id);
         if($q)
             $DB->query("INSERT INTO ".AUTH_DB.".ip_banned (ip, bandate, unbandate, bannedby, banreason) values (?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()-10, 'WEBSERVER', 'WEBSERVER')", $q);
-		$DB->query("UPDATE account_extend SET g_id=5 WHERE account_id=?d", $id);
+		$DB->query("UPDATE website_accounts SET g_id=5 WHERE account_id=?d", $id);
         redirect('index.php?n=admin&sub=members&id=' . $_GET['id'], 1);
     }elseif($_GET['action'] == 'unban'){
         $DB->query("UPDATE ".AUTH_DB.".account_banned SET active=0 WHERE id=?d ", $_GET['id']);
@@ -66,12 +66,12 @@ if($_GET['id'] > 0){
         $q = $DB->selectCell("SELECT last_ip FROM ".AUTH_DB.".account WHERE id=?d", $id);
         if($q)
             $DB->query("DELETE FROM ".AUTH_DB.".ip_banned WHERE ip=?", $q);
-		$DB->query("UPDATE account_extend SET g_id=2 WHERE account_id=?d", $id);
+		$DB->query("UPDATE website_accounts SET g_id=2 WHERE account_id=?d", $id);
         redirect('index.php?n=admin&sub=members&id=' . $_GET['id'], 1);
     }elseif($_GET['action'] == 'change'){
         // AzerothCore: профиль делится — игровые колонки account (email/locked/
         // expansion), gmlevel -> account_access (RealmID=-1 = все реальмы),
-        // веб-поля -> account_extend. Игровая структура account не меняется.
+        // веб-поля -> website_accounts. Игровая структура account не меняется.
         $p = RemoveXSS($_POST['profile']);
         $auth_fields = array();
         foreach(array('email','locked','expansion') as $af){
@@ -91,7 +91,7 @@ if($_GET['id'] > 0){
         }
         if(!isset($ext_fields['signature'])) $ext_fields['signature'] = htmlspecialchars($_POST['profile']['signature']);
         if($ext_fields)
-            $DB->query("UPDATE account_extend SET ?a WHERE account_id=?d LIMIT 1",$ext_fields,$_GET['id']);
+            $DB->query("UPDATE website_accounts SET ?a WHERE account_id=?d LIMIT 1",$ext_fields,$_GET['id']);
         redirect('index.php?n=admin&sub=members&id=' . $_GET['id'], 1);
     }elseif($_GET['action'] == 'change2'){
         if(is_uploaded_file($_FILES['avatar']['tmp_name'])){
@@ -108,7 +108,7 @@ if($_GET['id'] > 0){
                             $upl_avatar_name = $tmp_filenameadd . $_FILES['avatar']['name'];
                         }
                         if($upl_avatar_name)
-                            $DB->query("UPDATE account_extend SET avatar='" . $upl_avatar_name . "' WHERE account_id=?d LIMIT 1", $_GET['id']);
+                            $DB->query("UPDATE website_accounts SET avatar='" . $upl_avatar_name . "' WHERE account_id=?d LIMIT 1", $_GET['id']);
                     }else{
                         @unlink((string)$MW->getConfig->generic->avatar_path . $tmp_filenameadd . $_FILES['avatar']['name']);
                     }
@@ -116,7 +116,7 @@ if($_GET['id'] > 0){
             }
         }elseif($_POST['deleteavatar'] == 1){
             if(@unlink((string)$MW->getConfig->generic->avatar_path . $_POST['avatarfile'])){
-                $DB->query("UPDATE account_extend SET avatar=NULL WHERE account_id=?d LIMIT 1", $_GET['id']);
+                $DB->query("UPDATE website_accounts SET avatar=NULL WHERE account_id=?d LIMIT 1", $_GET['id']);
             }
         }
         $_POST['profile']['signature'] = htmlspecialchars($_POST['profile']['signature']);
@@ -125,12 +125,12 @@ if($_GET['id'] > 0){
             if(isset($_POST['profile'][$ef])) $ext_fields[$ef] = $_POST['profile'][$ef];
         }
         if($ext_fields)
-            $DB->query("UPDATE account_extend SET ?a WHERE account_id=?d LIMIT 1",$ext_fields,$_GET['id']);
+            $DB->query("UPDATE website_accounts SET ?a WHERE account_id=?d LIMIT 1",$ext_fields,$_GET['id']);
         redirect('index.php?n=admin&sub=members&id=' . $_GET['id'], 1);
     }elseif($_GET['action'] == 'dodeleteacc'){
         $DB->query("DELETE FROM ".AUTH_DB.".account_access WHERE id=?d", $_GET['id']);
         $DB->query("DELETE FROM ".AUTH_DB.".account WHERE id=?d LIMIT 1", $_GET['id']);
-        $DB->query("DELETE FROM account_extend WHERE account_id=?d LIMIT 1", $_GET['id']);
+        $DB->query("DELETE FROM website_accounts WHERE account_id=?d LIMIT 1", $_GET['id']);
         $DB->query("DELETE FROM pms WHERE owner_id=?d LIMIT 1", $_GET['id']);
         redirect('index.php?n=admin&sub=members', 1);
     }
@@ -138,14 +138,14 @@ if($_GET['id'] > 0){
     if($_GET['action'] == 'deleteinactive'){
         $cur_timestamp = date('Y-m-d H:i:s', time() - $oldInactiveTime);
         $accids = $DB->selectCol("
-            SELECT account_id FROM account_extend 
-            JOIN ".AUTH_DB.".account ON account.id=account_extend.account_id 
+            SELECT account_id FROM website_accounts 
+            JOIN ".AUTH_DB.".account ON account.id=website_accounts.account_id 
             WHERE activation_code IS NOT NULL AND joindate < ?
         ", $cur_timestamp);
         if($accids){
             $DB->query("DELETE FROM ".AUTH_DB.".account_access WHERE id IN(?a)", $accids);
             $DB->query("DELETE FROM ".AUTH_DB.".account WHERE id IN(?a)", $accids);
-            $DB->query("DELETE FROM account_extend WHERE account_id IN(?a)", $accids);
+            $DB->query("DELETE FROM website_accounts WHERE account_id IN(?a)", $accids);
         }
         redirect('index.php?n=admin&sub=members', 1);
     }elseif($_GET['action'] == 'deleteinactive_characters'){
@@ -176,7 +176,7 @@ if($_GET['id'] > 0){
             'petition_sign'               => 'ownerguid',
         );
         $cur_timestamp = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d') - $delete_in_days, date('Y')));
-        $accountids = $DB->selectCol("SELECT id FROM ".AUTH_DB.".account LEFT JOIN account_extend ON account.id=account_extend.account_id WHERE ?s >= last_login AND account_extend.vip=0", $cur_timestamp);
+        $accountids = $DB->selectCol("SELECT id FROM ".AUTH_DB.".account LEFT JOIN website_accounts ON account.id=website_accounts.account_id WHERE ?s >= last_login AND website_accounts.vip=0", $cur_timestamp);
         if(count($accountids))
             $charguids = $CHDB->selectCol("SELECT guid FROM `characters` WHERE account IN (?a)", $accountids);
         if(count($charguids)){
@@ -203,9 +203,9 @@ if($_GET['id'] > 0){
     
     $items = $DB->select("
         SELECT account.id, account.username, account.email, account.joindate, account.last_login, account.locked,
-               account_extend.* 
+               website_accounts.* 
         FROM ".AUTH_DB.".account 
-        LEFT JOIN account_extend ON account.id=account_extend.account_id 
+        LEFT JOIN website_accounts ON account.id=website_accounts.account_id 
         $filter 
         ORDER BY username 
         LIMIT $limit_start,$items_per_pages");

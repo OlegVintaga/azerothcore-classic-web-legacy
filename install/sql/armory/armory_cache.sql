@@ -37,7 +37,7 @@ CREATE TABLE `cache_item_search` (
   `mangosdbkey` int(10) unsigned NOT NULL default '0',
   `item_name` varchar(255) NOT NULL,
   `item_level` int(10) unsigned NOT NULL default '0',
-  `item_source` varchar(255) NOT NULL,
+  `item_source` text NOT NULL,
   `item_relevance` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`item_id`,`mangosdbkey`),
   KEY `mangosdbkey` (`mangosdbkey`)
