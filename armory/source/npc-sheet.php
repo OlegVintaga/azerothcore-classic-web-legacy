@@ -41,7 +41,7 @@ for ($k = 1; $k < 4; $k++) {
         $isUpgrades = false;
         if ($TotalCachedItems)
         {
-            foreach ($doquery_pls_gm as $result_pls_gm)
+            foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
             {
                 $item_search_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                 $Items[] = array($result_pls_gm["item_id"], $result_pls_gm["item_name"], $result_pls_gm["item_level"], $result_pls_gm["item_source"], ($isUpgrades ? $itemScores[$result_pls_gm["item_id"]] : $result_pls_gm["item_relevance"]));
@@ -82,16 +82,16 @@ for ($k = 1; $k < 4; $k++) {
 
             $doquery_pls_gm = execute_query("armory", "SELECT * FROM `cache_item` WHERE `item_id` IN (".$visible_item_ids.") AND `mangosdbkey` = ".$realms[REALM_NAME][2]);
             $item_cache = array();
-            foreach ($doquery_pls_gm as $result_pls_gm)
+            foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
                 $item_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
             foreach ($item_cache as $item)
-                $item["item_relevance"] = $itemScores[$item["item_id"]];
+                $item["item_relevance"] = isset($itemScores[$item["item_id"]]) ? $itemScores[$item["item_id"]] : 0;
             //while($result_pls_gm = mysql_fetch_assoc($doquery_pls_gm))
             //	$item_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
             //switchConnection("armory", REALM_NAME);
             $doquery_pls_gm = execute_query("armory", "SELECT `item_id` FROM `cache_item_tooltip` WHERE `item_id` IN (".$visible_item_ids.") AND `mangosdbkey` = ".$realms[REALM_NAME][2]);
             $item_tooltip_cache = array();
-            foreach ($doquery_pls_gm as $result_pls_gm)
+            foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
                 $item_tooltip_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
             //while($result_pls_gm = mysql_fetch_assoc($doquery_pls_gm))
             //	$item_tooltip_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
@@ -171,7 +171,7 @@ for($i = 1; $i < 11; $i++) {
             $isUpgrades = false;
             if ($TotalCachedItems)
             {
-                foreach ($doquery_pls_gm as $result_pls_gm)
+                foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
                 {
                     $item_search_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                     $Items[] = array($result_pls_gm["item_id"], $result_pls_gm["item_name"], $result_pls_gm["item_level"], $result_pls_gm["item_source"], ($isUpgrades ? $itemScores[$result_pls_gm["item_id"]] : $result_pls_gm["item_relevance"]));
@@ -212,7 +212,7 @@ for($i = 1; $i < 11; $i++) {
 
                 $doquery_pls_gm = execute_query("armory", "SELECT * FROM `cache_item` WHERE `item_id` IN (".$visible_item_ids.") AND `mangosdbkey` = ".$realms[REALM_NAME][2]);
                 $item_cache = array();
-                foreach ($doquery_pls_gm as $result_pls_gm)
+                foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
                     $item_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                 foreach ($item_cache as $item)
                     $item["item_relevance"] = isset($itemScores[$item["item_id"]]) ? $itemScores[$item["item_id"]] : 0;
@@ -221,7 +221,7 @@ for($i = 1; $i < 11; $i++) {
                 //switchConnection("armory", REALM_NAME);
                 $doquery_pls_gm = execute_query("armory", "SELECT `item_id` FROM `cache_item_tooltip` WHERE `item_id` IN (".$visible_item_ids.") AND `mangosdbkey` = ".$realms[REALM_NAME][2]);
                 $item_tooltip_cache = array();
-                foreach ($doquery_pls_gm as $result_pls_gm)
+                foreach ((is_array($doquery_pls_gm) ? $doquery_pls_gm : array()) as $result_pls_gm)
                     $item_tooltip_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
                 //while($result_pls_gm = mysql_fetch_assoc($doquery_pls_gm))
                 //	$item_tooltip_cache[$result_pls_gm["item_id"]] = $result_pls_gm;
