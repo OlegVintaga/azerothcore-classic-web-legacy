@@ -2,6 +2,11 @@
 
 [Русская версия](README.ru.md)
 
+> **Note:** fixes and improvements in this repository are made with the help of AI
+> assistants. They are verified as far as possible (`php -l`, automated page scans
+> for PHP warnings and fatals, live before/after checks), but mistakes are still
+> possible. Review changes before deploying them to a production server.
+
 PHP web portal + character armory for [AzerothCore](https://github.com/azerothcore/azerothcore-wotlk)
 (WotLK 3.3.5) servers. It targets the stock AzerothCore 3.3.5 database structure,
 but contains no hardcoded server: database credentials, realm names/addresses,
